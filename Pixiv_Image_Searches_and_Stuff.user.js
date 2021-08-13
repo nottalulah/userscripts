@@ -6,7 +6,7 @@
 // @grant        GM_setValue
 // @grant        GM_deleteValue
 // @grant        GM_xmlhttpRequest
-// @downloadURL  https://github.com/fairingrey/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
+// @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @version      2020.01.09
 // ==/UserScript==
@@ -321,9 +321,14 @@ async function asyncProcessThumbs() {
             }
 
             if (iqdbURL && addIQDBSearch) {
-                bookmarkLink.href = iqdbURL + thumbImg.src.replace(/\/c\/250x250_80_a2/,"").replace(/square1200/,"master1200") + (thumbPage ? "&fullimage=" + thumbPage.href : "");
+                let src = thumbImg.src
+                  .replace(/c\/360x360_70\/custom-thumb/, "img-master")
+                  .replace(/\/c\/250x250_80_a2/,"")
+                  .replace(/square1200/, "master1200")
+                  .replace(/custom1200/, "master1200") + (thumbPage ? "&fullimage=" + thumbPage.href : "");
+                bookmarkLink.href = iqdbURL + src;
                 bookmarkLink.innerHTML = (bookmarkCount > 0 ? "(Q):" + bookmarkCount : "(Q)");
-                bookmarkLink2.href = sauceURL + thumbImg.src.replace(/\/c\/250x250_80_a2/,"").replace(/square1200/,"master1200") + (thumbPage ? "&fullimage=" + thumbPage.href : "");
+                bookmarkLink2.href = sauceURL + src;
                 bookmarkLink2.innerHTML = "(S)";
             }
 
@@ -497,9 +502,14 @@ function processThumbs(target) {
         }
 
         if (iqdbURL && addIQDBSearch) {
-            bookmarkLink.href = iqdbURL + thumbImg.src.replace(/\/c\/250x250_80_a2/,"").replace(/square1200/,"master1200") + (thumbPage ? "&fullimage=" + thumbPage.href : "");
+           let src = thumbImg.src
+              .replace(/c\/360x360_70\/custom-thumb/, "img-master")
+              .replace(/\/c\/250x250_80_a2/,"")
+              .replace(/square1200/, "master1200")
+              .replace(/custom1200/, "master1200") + (thumbPage ? "&fullimage=" + thumbPage.href : "");
+            bookmarkLink.href = iqdbURL + src;
             bookmarkLink.innerHTML = "(Q)"+(bookmarkCount==0?"":':'+bookmarkCount.toString());
-            bookmarkLink2.href = sauceURL + thumbImg.src.replace(/\/c\/250x250_80_a2/,"").replace(/square1200/,"master1200") + (thumbPage ? "&fullimage=" + thumbPage.href : "");
+            bookmarkLink2.href = sauceURL + src;
             bookmarkLink2.innerHTML = "(S)";
         }
 
@@ -526,6 +536,7 @@ function pixivIllustID(url) {
 }
 
 function pixivPageNumber(url) {
+    url = url.replace(/custom/g, "master").replace(/square/g, "master");
     var matcher = url.match(/_p(\d+)(_master\d+)?\./);
     return matcher ? matcher[1] : "x";
 }
@@ -727,6 +738,7 @@ function sourceSearch(thumbList, attempt, page) {
                         });
                     }
                 }
+
                 if (thumbList[i].posts.length === 1) {
                     //Found one post; link directly to it
                     thumbList[i].link.textContent = "post #" + thumbList[i].posts[0].id;
@@ -767,3 +779,4 @@ function sourceSearch(thumbList, attempt, page) {
         onabort: retry
     });
 }
+
