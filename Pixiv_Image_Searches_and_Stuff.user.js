@@ -8,7 +8,7 @@
 // @grant        GM_xmlhttpRequest
 // @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @version      2020.01.09
+// @version      2021.10.05
 // ==/UserScript==
 
 /* You must be logged into Danbooru (or your preferred site mirror) for all features to work! */
@@ -647,7 +647,7 @@ function sourceSearch(thumbList, attempt, page) {
 
             if (/^ *$/.test(responseDetails.responseText)) {
                 status = "(error)"; //No content
-            } else if (responseDetails.responseText.indexOf("<title>Downbooru</title>") > 0) {
+            } else if (responseDetails.status == 503) {
                 addSourceSearch = maxAttempts = 0; //Give up
                 status = "(Downbooru)";
             } else if (responseDetails.responseText.indexOf("<title>Failbooru</title>") > 0) {
