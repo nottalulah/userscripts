@@ -8,7 +8,7 @@
 // @grant        GM_xmlhttpRequest
 // @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @version      2021.10.05
+// @version      2022.04.09
 // ==/UserScript==
 
 /* You must be logged into Danbooru (or your preferred site mirror) for all features to work! */
@@ -71,7 +71,7 @@ const pageselectors = [
         selectors: [12]
     },{ //5
         regex: /^\/bookmark_new_illust\.php/,
-        selectors: [8]
+        selectors: [9]
     },{ //6
         regex: /^\/discovery/,
         selectors: [8]
