@@ -8,7 +8,7 @@
 // @grant        GM_xmlhttpRequest
 // @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @version      2022.04.09
+// @version      2023.01.13
 // ==/UserScript==
 
 /* You must be logged into Danbooru (or your preferred site mirror) for all features to work! */
@@ -515,11 +515,12 @@ function processThumbs(target) {
 
         if (addSourceSearch && (!thumbImg.src || thumbImg.src.indexOf("/novel/") < 0) && pixivIllustID(thumbImg.src || thumbImg.href)) {
             sourceContainer.appendChild(document.createTextNode(" "));
+            let page = pageNumber(thumbImg);
             thumbList.push({
                 link: sourceContainer.appendChild(document.createElement("a")),
                 pixiv_id: pixivIllustID(thumbImg.src || thumbImg.href),
                 src: thumbImg.src || retrieveOGImageURL(),
-                page: ($(".gtm-medium-work-expanded-view").length ? pixivPageNumber(thumbImg.src || thumbImg.href) : -1)
+                page: page,
             });
         }
     }
@@ -528,6 +529,16 @@ function processThumbs(target) {
         asyncProcessThumbs();
     }
     sourceSearch(thumbList);
+}
+
+function pageNumber(thumbImg) {
+    if (!$(".gtm-medium-work-expanded-view").length) {
+        return -1;
+    } else if (thumbImg.closest("a")?.classList?.contains("gtm-illust-recommend-thumbnail-link")) {
+        return -1;
+    } else {
+        return pixivPageNumber(thumbImg.src || thumbImg.href);
+    }
 }
 
 function pixivIllustID(url) {
@@ -734,7 +745,7 @@ function sourceSearch(thumbList, attempt, page) {
                         thumbList[i].posts.push({
                             "id": result[j].id,
                             "src": result[j].source,
-                            "isBadRevision": result[j].tag_string.split(" ").includes("has_bad_revision")
+                            "isBadRevision": result[j].tag_string.split(" ").includes("has_bad_revision"),
                         });
                     }
                 }
