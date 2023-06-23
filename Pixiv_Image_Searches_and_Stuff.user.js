@@ -8,7 +8,7 @@
 // @grant        GM_xmlhttpRequest
 // @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @version      2023.01.13
+// @version      2023.06.23
 // ==/UserScript==
 
 /* You must be logged into Danbooru (or your preferred site mirror) for all features to work! */
@@ -57,37 +57,37 @@ const pageselectors = [
     {   //0
         regex: /^\/member\.php/,
         selectors: [9]
-    },{ //1
+    }, { //1
         regex: /^\/member_illust\.php/,
         selectors: [9]
-    },{ //2
+    }, { //2
         regex: /^\/bookmark\.php/,
         selectors: [9]
-    },{ //3
+    }, { //3
         regex: /^\/(?:\w+\/)?artworks\//,
         selectors: [2,10]
-    },{ //4
+    }, { //4
         regex: /^\/search\.php/,
         selectors: [12]
-    },{ //5
+    }, { //5
         regex: /^\/bookmark_new_illust\.php/,
         selectors: [9]
-    },{ //6
+    }, { //6
         regex: /^\/discovery/,
-        selectors: [8]
-    },{ //7
+        selectors: [9]
+    }, { //7
         regex: /^\/stacc/,
         selectors: [1]
-    },{ //8
+    }, { //8
         regex: /^\/ranking\.php/,
         selectors: [9]
-    },{ //9
+    }, { //9
         regex: /^\/(?:\w+\/)?tags\//,
         selectors: [12]
-    },{ //10
+    }, { //10
         regex: /^\/(?:\w+\/)?users\//,
         selectors: [9]
-    }
+    },
 ];
 
 var minFavs = 0,
@@ -372,7 +372,13 @@ function processThumbs(target) {
 
     for (let i = 0; i < pageselectors.length; i++) {
         if (location.pathname.match(pageselectors[i].regex)) {
-            var xSearch = document.evaluate(pageselectors[i].selectors.map((index)=>{return xsearchselectors[index]}).join(' | '),document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
+            var xSearch = document.evaluate(
+              pageselectors[i].selectors.map(index => xsearchselectors[index]).join(' | '),
+              document,
+              null,
+              XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+              null
+            );
             for (let j = 0; j < xSearch.snapshotLength; j++) {
                 thumbSearch.push(xSearch.snapshotItem(j));
                 xSearch.snapshotItem(j).setAttribute("pisas", "done");
@@ -387,7 +393,7 @@ function processThumbs(target) {
         }
         return;
     } else {
-        debuglog("Images found:",thumbSearch);
+        debuglog("Images found:", thumbSearch);
     }
     for (let i = 0; i < thumbSearch.length; i++) {
         var thumbCont, thumbPage = null,
@@ -396,7 +402,7 @@ function processThumbs(target) {
         for (thumbCont = thumbImg.parentNode; !thumbCont.classList.contains("works_display"); thumbCont = thumbCont.parentNode) {
             if (thumbCont.tagName == "A") {
                 thumbPage = thumbCont;
-                if ([2, 4, 6, 9].includes(pagetype)) {
+                if ([2, 4, 9].includes(pagetype)) {
                     thumbCont = thumbPage.parentNode.parentNode.parentNode;
                 } else if (pagetype === 8) {
                     thumbCont = thumbPage.parentNode.parentNode;
@@ -427,7 +433,7 @@ function processThumbs(target) {
         var bookmarkLink2;
         var sourceContainer = thumbCont;
 
-        if ($(".pisas-dummydiv",thumbCont).length > 0) {
+        if ($(".pisas-dummydiv", thumbCont).length > 0) {
             debuglog("Already processed!");
             continue;
         }
