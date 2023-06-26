@@ -8,7 +8,7 @@
 // @grant        GM_xmlhttpRequest
 // @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @version      2023.06.23
+// @version      2023.08.30
 // ==/UserScript==
 
 /* You must be logged into Danbooru (or your preferred site mirror) for all features to work! */
@@ -51,6 +51,7 @@ const xsearchselectors = [
     "descendant-or-self::div/a[contains(@class,'gtm-illust-recommend-thumbnail-link') and contains(@href,'artworks')]//img[not(@pisas)]",
     "descendant-or-self::section/ul/li//div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
     "descendant-or-self::section/div/ul/li//div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
+    "descendant-or-self::div[@type='illust']/div/a/div/img[not(@pisas)]",
 ];
 
 const pageselectors = [
@@ -65,7 +66,7 @@ const pageselectors = [
         selectors: [9]
     }, { //3
         regex: /^\/(?:\w+\/)?artworks\//,
-        selectors: [2,10]
+        selectors: [2,10,13]
     }, { //4
         regex: /^\/search\.php/,
         selectors: [12]
@@ -86,6 +87,9 @@ const pageselectors = [
         selectors: [12]
     }, { //10
         regex: /^\/(?:\w+\/)?users\//,
+        selectors: [9]
+    }, { //11
+        regex: /^\/(?:en\/)?$/,
         selectors: [9]
     },
 ];
