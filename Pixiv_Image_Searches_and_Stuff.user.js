@@ -8,7 +8,7 @@
 // @grant        GM_xmlhttpRequest
 // @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @version      2023.08.30
+// @version      2023.09.07
 // ==/UserScript==
 
 /* You must be logged into Danbooru (or your preferred site mirror) for all features to work! */
@@ -52,6 +52,7 @@ const xsearchselectors = [
     "descendant-or-self::section/ul/li//div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
     "descendant-or-self::section/div/ul/li//div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
     "descendant-or-self::div[@type='illust']/div/a/div/img[not(@pisas)]",
+    "descendant-or-self::section/div/div/ul/li//div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
 ];
 
 const pageselectors = [
@@ -84,7 +85,7 @@ const pageselectors = [
         selectors: [9]
     }, { //9
         regex: /^\/(?:\w+\/)?tags\//,
-        selectors: [12]
+        selectors: [12, 14]
     }, { //10
         regex: /^\/(?:\w+\/)?users\//,
         selectors: [9]
@@ -800,4 +801,3 @@ function sourceSearch(thumbList, attempt, page) {
         onabort: retry
     });
 }
-
