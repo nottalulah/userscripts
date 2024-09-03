@@ -70,7 +70,7 @@ const pageselectors = [
         selectors: [2,9,10,13]
     }, { //4
         regex: /^\/search\.php/,
-        selectors: [12]
+        selectors: [9,12]
     }, { //5
         regex: /^\/bookmark_new_illust\.php/,
         selectors: [9]
@@ -85,7 +85,7 @@ const pageselectors = [
         selectors: [9]
     }, { //9
         regex: /^\/(?:\w+\/)?tags\//,
-        selectors: [12, 14]
+        selectors: [9,12,14]
     }, { //10
         regex: /^\/(?:\w+\/)?users\//,
         selectors: [9]
