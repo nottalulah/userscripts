@@ -8,7 +8,7 @@
 // @grant        GM_xmlhttpRequest
 // @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @version      2023.09.07
+// @version      2024.09.03
 // ==/UserScript==
 
 /* You must be logged into Danbooru (or your preferred site mirror) for all features to work! */
@@ -47,7 +47,7 @@ const xsearchselectors = [
     "descendant-or-self::div/a[contains(@href,'mode=medium')]/div[contains(@style,'background-image') and not(@pisas)]",
     "descendant-or-self::div/a[contains(@class,'gtm-illust-recommend-thumbnail-link') and contains(@href,'mode=medium')]//img[not(@pisas)]",
     "descendant-or-self::div/a[contains(@href,'artworks')]/div[contains(@style,'background-image') and not(@pisas)]",
-    "descendant-or-self::div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
+    "descendant-or-self::div/a[contains(@href,'artworks')]/div/div/img[not(@pisas)]",
     "descendant-or-self::div/a[contains(@class,'gtm-illust-recommend-thumbnail-link') and contains(@href,'artworks')]//img[not(@pisas)]",
     "descendant-or-self::section/ul/li//div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
     "descendant-or-self::section/div/ul/li//div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
@@ -67,10 +67,10 @@ const pageselectors = [
         selectors: [9]
     }, { //3
         regex: /^\/(?:\w+\/)?artworks\//,
-        selectors: [2,10,13]
+        selectors: [2,9,10,13]
     }, { //4
         regex: /^\/search\.php/,
-        selectors: [12]
+        selectors: [9,12]
     }, { //5
         regex: /^\/bookmark_new_illust\.php/,
         selectors: [9]
@@ -85,7 +85,7 @@ const pageselectors = [
         selectors: [9]
     }, { //9
         regex: /^\/(?:\w+\/)?tags\//,
-        selectors: [12, 14]
+        selectors: [9,12,14]
     }, { //10
         regex: /^\/(?:\w+\/)?users\//,
         selectors: [9]
