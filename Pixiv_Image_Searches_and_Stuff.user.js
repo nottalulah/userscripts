@@ -8,14 +8,14 @@
 // @grant        GM_xmlhttpRequest
 // @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @version      2024.09.03
+// @version      2024.09.23
 // ==/UserScript==
 
 /* You must be logged into Danbooru (or your preferred site mirror) for all features to work! */
 
 var danbooruURL = "https://danbooru.donmai.us/"; //Change this to your preferred subdomain if desired (sonohara, hijiribe). Make sure to include the final backslash. It may break if your selected mirror does not support HTTPS
-var iqdbURL = "https://danbooru.iqdb.org/?url="; //Replace with "https://danbooru.iqdb.org/?url=" (Danbooru) or "https://iqdb.org/?url=" (multi-service) to add IQDB search links (replaces bookmark counts)
-var sauceURL = "http://saucenao.com/search.php?db=999&url=";
+var iqdbURL = "https://danbooru.donmai.us/iqdb_queries?url="; //Replace with "https://danbooru.iqdb.org/?url=" (Danbooru) or "https://iqdb.org/?url=" (multi-service) to add IQDB search links (replaces bookmark counts)
+var sauceURL = "https://saucenao.com/search.php?db=999&url=";
 var addIQDBSearch = true; //IQDB search button
 var addSourceSearch = true; //Danbooru post search (looks for matching pixiv IDs); **Requires GM_xmlhttpRequest**
 var ignoreMismatch = false; //ignores mismatch highlighting
