@@ -8,7 +8,7 @@
 // @grant        GM_xmlhttpRequest
 // @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @version      2024.09.23
+// @version      2025.05.17
 // ==/UserScript==
 
 /* You must be logged into Danbooru (or your preferred site mirror) for all features to work! */
@@ -53,6 +53,7 @@ const xsearchselectors = [
     "descendant-or-self::section/div/ul/li//div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
     "descendant-or-self::div[@type='illust']/div/a/div/img[not(@pisas)]",
     "descendant-or-self::section/div/div/ul/li//div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
+    "descendant-or-self::li/div/div/a[contains(@class,'gtm-request-creator-recommend-post-link-work')]/img[not(@pisas)]",
 ];
 
 const pageselectors = [
@@ -92,6 +93,9 @@ const pageselectors = [
     }, { //11
         regex: /^\/(?:en\/)?$/,
         selectors: [9]
+    }, {
+        regex: /^\/(?:\w+\/)?request/,
+        selectors: [15]
     },
 ];
 
@@ -327,10 +331,9 @@ async function asyncProcessThumbs() {
 
             if (iqdbURL && addIQDBSearch) {
                 let src = thumbImg.src
-                  .replace(/c\/360x360_70\/custom-thumb/, "img-master")
-                  .replace(/\/c\/250x250_80_a2/,"")
+                  .replace(/c\/.+\/custom-thumb/, "img-master")
                   .replace(/square1200/, "master1200")
-                  .replace(/custom1200/, "master1200") + (thumbPage ? "&fullimage=" + thumbPage.href : "");
+                  .replace(/custom1200/, "master1200");
                 bookmarkLink.href = iqdbURL + src;
                 bookmarkLink.innerHTML = (bookmarkCount > 0 ? "(Q):" + bookmarkCount : "(Q)");
                 bookmarkLink2.href = sauceURL + src;
@@ -432,7 +435,7 @@ function processThumbs(target) {
                 break;
             }
         }
-        thumbCont.style.marginBottom = (multi_image ? "3em" : "1em");
+        thumbCont.style.marginBottom = (multi_image ? "3em" : (window.location.pathname == "/request" ? "" : "1em"));
         var bookmarkCount = 0,
             bookmarkLink = thumbCont.querySelector("a[href*='bookmark_detail.php']");
         var bookmarkLink2;
@@ -486,7 +489,12 @@ function processThumbs(target) {
             dummydiv.style.display = 'flex';
             dummydiv.style.paddingBottom = "2em";
             dummydiv.className = 'pisas-dummydiv';
-            thumbCont.appendChild(dummydiv);
+            if (window.location.pathname == "/request") {
+                dummydiv.style.paddingBottom = "";
+                thumbCont.insertAdjacentElement("afterend", dummydiv);
+            } else {
+                thumbCont.appendChild(dummydiv);
+            }
             sourceContainer = dummydiv;
             if (iqdbURL && addIQDBSearch) {
             //Thumb doesn't have bookmark info.  Add a fake bookmark link to link with the IQDB.
@@ -514,10 +522,9 @@ function processThumbs(target) {
 
         if (iqdbURL && addIQDBSearch) {
            let src = thumbImg.src
-              .replace(/c\/360x360_70\/custom-thumb/, "img-master")
-              .replace(/\/c\/250x250_80_a2/,"")
+              .replace(/c\/.+\/custom-thumb/, "img-master")
               .replace(/square1200/, "master1200")
-              .replace(/custom1200/, "master1200") + (thumbPage ? "&fullimage=" + thumbPage.href : "");
+              .replace(/custom1200/, "master1200");
             bookmarkLink.href = iqdbURL + src;
             bookmarkLink.innerHTML = "(Q)"+(bookmarkCount==0?"":':'+bookmarkCount.toString());
             bookmarkLink2.href = sauceURL + src;
