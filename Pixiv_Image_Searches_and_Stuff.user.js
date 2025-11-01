@@ -8,7 +8,7 @@
 // @grant        GM_xmlhttpRequest
 // @downloadURL  https://github.com/nottalulah/userscripts/raw/master/Pixiv_Image_Searches_and_Stuff.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @version      2025.05.17
+// @version      2025.11.01
 // ==/UserScript==
 
 /* You must be logged into Danbooru (or your preferred site mirror) for all features to work! */
@@ -54,6 +54,7 @@ const xsearchselectors = [
     "descendant-or-self::div[@type='illust']/div/a/div/img[not(@pisas)]",
     "descendant-or-self::section/div/div/ul/li//div/a[contains(@href,'artworks')]/div/img[not(@pisas)]",
     "descendant-or-self::li/div/div/a[contains(@class,'gtm-request-creator-recommend-post-link-work')]/img[not(@pisas)]",
+    "descendant-or-self::ol/li/div/a[contains(@href,'artworks')]/img[not(@pisas)]",
 ];
 
 const pageselectors = [
@@ -83,7 +84,7 @@ const pageselectors = [
         selectors: [1]
     }, { //8
         regex: /^\/ranking\.php/,
-        selectors: [9]
+        selectors: [9, 16]
     }, { //9
         regex: /^\/(?:\w+\/)?tags\//,
         selectors: [9,12,14]
