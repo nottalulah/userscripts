@@ -561,7 +561,7 @@ function pageNumber(thumbImg) {
 }
 
 function pixivIllustID(url) {
-    var matcher = url.match(/\/(\d+)(_|\.)[^\/]+$/) || url.match(/illust_id=(\d+)/) || url.match(/\/artworks\/(\d+)/);
+    var matcher = url.match(/\/(\d+)(?:-[a-f0-9]+)?(_|\.)[^\/]+$/) || url.match(/illust_id=(\d+)/) || url.match(/\/artworks\/(\d+)/);
     return matcher && matcher[1];
 }
 
@@ -578,10 +578,10 @@ function pixivPageNumber(url) {
  * 3: page number e.g. 3
  */
 function tokenizePixivURL(url) {
-    var matcher = url.match(/(\d+\/\d+\/\d+\/\d+\/\d+\/\d+)\/(\d+)(?:_big)?_p(\d+)(?:_\w*\d*)?[^\/]+$/);
+    var matcher = url.match(/(\d+\/\d+\/\d+\/\d+\/\d+\/\d+)\/(\d+)(?:-[a-f0-9]+)?(?:_big)?_p(\d+)(?:_\w*\d*)?[^\/]+$/);
     // handles ugoira
     if (!matcher) {
-        matcher = url.match(/(\d+\/\d+\/\d+\/\d+\/\d+\/\d+)\/(\d+)(?:_big)?(?:_\w*\d*)?[^\/]+$/);
+        matcher = url.match(/(\d+\/\d+\/\d+\/\d+\/\d+\/\d+)\/(\d+)(?:-[a-f0-9]+)?(?:_big)?(?:_\w*\d*)?[^\/]+$/);
     }
     // handles older pixiv URLs (multiple)
     if (!matcher) {
